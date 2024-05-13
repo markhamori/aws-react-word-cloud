@@ -5,9 +5,9 @@ import Wordcloud from "@visx/wordcloud/lib/Wordcloud";
 import { generateColor } from "../../utils/generaterColor";
 import { wordFreq } from "../../utils/wordFreq";
 import { getRotationDegree } from "../../utils/getRotationDegree";
+import useViewportSize from "../../hooks/useViewportSize";
 
 import "./WordCloud.css";
-import useViewportSize from "../../hooks/useViewportSize";
 
 export type WordData = {
   text: string;
@@ -38,34 +38,32 @@ const WordCloud = ({ concatedWords }: WordCloudProps) => {
   const { width, height } = viewportSize;
 
   return (
-    <div className="wordcloud">
-      <Wordcloud
-        words={words}
-        width={width}
-        height={height}
-        fontSize={(datum: WordData) => fontScale(datum.value)}
-        font={"Impact"}
-        padding={2}
-        spiral={spiralType}
-        rotate={withRotation ? getRotationDegree : 0}
-        random={() => 0.5}
-      >
-        {(cloudWords) =>
-          cloudWords.map((w, i) => (
-            <Text
-              key={w.text}
-              fill={generateColor(w.text)}
-              textAnchor={"middle"}
-              transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
-              fontSize={w.size}
-              fontFamily={w.font}
-            >
-              {w.text}
-            </Text>
-          ))
-        }
-      </Wordcloud>
-    </div>
+    <Wordcloud
+      words={words}
+      width={width}
+      height={height}
+      fontSize={(datum: WordData) => fontScale(datum.value)}
+      font={"Impact"}
+      padding={2}
+      spiral={spiralType}
+      rotate={withRotation ? getRotationDegree : 0}
+      random={() => 0.5}
+    >
+      {(cloudWords) =>
+        cloudWords.map((w, i) => (
+          <Text
+            key={w.text}
+            fill={generateColor(w.text)}
+            textAnchor={"middle"}
+            transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
+            fontSize={w.size}
+            fontFamily={w.font}
+          >
+            {w.text}
+          </Text>
+        ))
+      }
+    </Wordcloud>
   );
 };
 

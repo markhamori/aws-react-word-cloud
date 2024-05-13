@@ -1,9 +1,3 @@
-.wordcloud {
-    display: flex;
-    flex-direction: column;
-    user-select: none;
-}
-
 .wordcloud svg {
     margin: 1rem 0;
     cursor: pointer;

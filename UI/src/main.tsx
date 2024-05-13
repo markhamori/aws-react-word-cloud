@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import WorldCloudContainer from "./containers/word-cloud-container/WorldCloudContainer.tsx";
+import WorldCloudContainer from "./containers/word-cloud-container/WordCloudContainer.tsx";
 
 import "./index.css";
 
