@@ -1,6 +1,6 @@
 type HSLColor = [number, number, number];
 
-export function generateColor(word: string | undefined, saturation: number = 0.3): string {
+export const generateColor = (word: string | undefined, saturation: number = 0.3): string => {
     if (!word) return "";
 
     let hash = 0;
@@ -23,7 +23,7 @@ export function generateColor(word: string | undefined, saturation: number = 0.3
     return color;
 }
 
-function hexToHSL(hex: string): HSLColor {
+const hexToHSL = (hex: string): HSLColor => {
     const r = parseInt(hex.substring(1, 3), 16) / 255;
     const g = parseInt(hex.substring(3, 5), 16) / 255;
     const b = parseInt(hex.substring(5, 7), 16) / 255;
@@ -53,7 +53,7 @@ function hexToHSL(hex: string): HSLColor {
     return [h, s, l];
 }
 
-function hslToHex(hsl: HSLColor): string {
+const hslToHex = (hsl: HSLColor): string => {
     const [h, s, l] = hsl;
     let r, g, b;
     if (s === 0) {

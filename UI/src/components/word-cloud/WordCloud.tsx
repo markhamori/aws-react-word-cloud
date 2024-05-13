@@ -7,6 +7,7 @@ import { wordFreq } from "../../utils/wordFreq";
 import { getRotationDegree } from "../../utils/getRotationDegree";
 
 import "./WordCloud.css";
+import useViewportSize from "../../hooks/useViewportSize";
 
 export type WordData = {
   text: string;
@@ -14,14 +15,12 @@ export type WordData = {
 };
 
 type WordCloudProps = {
-  width: number;
-  height: number;
   concatedWords: string;
 };
 
 type SpiralType = "archimedean" | "rectangular";
 
-const WordCloud = ({ width, height, concatedWords }: WordCloudProps) => {
+const WordCloud = ({ concatedWords }: WordCloudProps) => {
   const [spiralType, setSpiralType] = useState<SpiralType>("rectangular");
   const [withRotation, setWithRotation] = useState(false);
 
@@ -34,6 +33,9 @@ const WordCloud = ({ width, height, concatedWords }: WordCloudProps) => {
     ],
     range: [10, 100],
   });
+
+  const viewportSize = useViewportSize();
+  const { width, height } = viewportSize;
 
   return (
     <div className="wordcloud">
