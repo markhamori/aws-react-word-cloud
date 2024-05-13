@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Text } from "@visx/text";
 import { scaleLog } from "@visx/scale";
 import Wordcloud from "@visx/wordcloud/lib/Wordcloud";
-import { generateColor } from "../../utils/generaterColor";
 import { wordFreq } from "../../utils/wordFreq";
 import { getRotationDegree } from "../../utils/getRotationDegree";
 import useViewportSize from "../../hooks/useViewportSize";
+import { generateColor } from "../../utils/generaterColor";
 
 import "./WordCloud.css";
+import { Text } from "@visx/text";
 
 export type WordData = {
   text: string;
