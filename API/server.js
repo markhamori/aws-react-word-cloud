@@ -2,37 +2,70 @@
 
 const fastify = require('fastify')();
 const AWS = require('aws-sdk');
+const cors = require("@fastify/cors")
 
 require('dotenv').config();
 
-// Set up AWS credentials
 AWS.config.update({
     region: process.env.AWS_REGION,
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
-// Create an instance of the SNS service
+const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const sns = new AWS.SNS();
+const lambda = new AWS.Lambda();
 
-fastify.register(require('fastify-websocket'));
+fastify.register(cors);
 
-fastify.get('/hello', (request, reply) => {
+fastify.get('/health', (request, reply) => {
     reply.send({
-        message: 'Hello Fastify'
+        message: 'Health Fastify',
     });
 });
 
-fastify.get('/hello-ws', { websocket: true }, (connection /* WebSocket */, req /* FastifyRequest */) => {
-    connection.socket.on('message', message => {
-      message.toString() === 'hi from client'
-      console.log('Received message:', message);
-      connection.socket.send('Message received: ' + message);
-    });
-})
+fastify.post('/test-sns', async (request, reply) => {
+    const { message } = request.body;
 
-fastify.setNotFoundHandler((request, reply) => {
-    reply.code(404).send({ error: 'Not Found', message: 'Route not found' });
+    try {
+        const snsResponse = await sns.publish({
+            Message: message,
+            TopicArn: process.env.AWS_SNS_WORD_CLOUD_TOPIC_ARN
+        }).promise();
+
+        await dynamoDB.put({
+            TableName: process.env.AWS_DYNAMODB_TABLE_NAME,
+            Item: {
+                messageId: snsResponse.MessageId,
+                messageText: message,
+                timestamp: Date.now()
+            }
+        }).promise();
+
+        reply.send({ success: true, message: 'Message published successfully and written to DynamoDB' });
+    } catch (error) {
+        console.error('Error processing message:', error);
+        reply.status(500).send({ success: false, message: 'Failed to process message' });
+    }
+});
+
+fastify.get('/test-sns', async (request, reply) => {
+    try {
+        const dynamoDBResponse = await dynamoDB.scan({
+            TableName: process.env.AWS_DYNAMODB_TABLE_NAME
+        }).promise();
+
+        const messages = dynamoDBResponse.Items.map(item => ({
+            messageId: item.messageId,
+            messageText: item.messageText,
+            timestamp: item.timestamp
+        }));
+
+        reply.send({ success: true, messages });
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        reply.status(500).send({ success: false, message: 'Failed to fetch messages' });
+    }
 });
 
 fastify.listen({ port: 3000 }, (err, address) => {
@@ -42,28 +75,3 @@ fastify.listen({ port: 3000 }, (err, address) => {
     }
     console.log(`Server listening at: ${address}`);
 });
-
-// Define WebSocket connection handler
-// fastify.register(websocketPlugin, { handle });
-function handle (connection) {
-    connection.socket.on('message', message => {
-      connection.socket.send(message); // Echo back the received message
-      publishToAWS(message); // Publish message to AWS SNS
-    });
-  }
-  
-  // Function to publish message to AWS SNS
-  function publishToAWS(message) {
-      const params = {
-          Message: message,
-          TopicArn: 'arn:aws:sns:your-region:your-account-id:your-topic-name'
-      };
-  
-      sns.publish(params, (err, data) => {
-          if (err) {
-              console.error('Error publishing message:', err);
-          } else {
-              console.log('Message published successfully:', data);
-          }
-      });
-  }
