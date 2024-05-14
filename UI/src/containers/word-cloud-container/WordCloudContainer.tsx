@@ -21,7 +21,7 @@ const WordCloudContainer = () => {
           height="80"
           width="80"
           color="#FFF"
-          ariaLabel="triangle-loading"
+          ariaLabel="loading"
         />
       </div>
     );

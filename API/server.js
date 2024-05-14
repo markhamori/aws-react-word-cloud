@@ -38,7 +38,7 @@ fastify.post('/test-sns', async (request, reply) => {
             Item: {
                 messageId: snsResponse.MessageId,
                 messageText: message,
-                timestamp: Date.now()
+                timestamp: Date.now(),
             }
         }).promise();
 
