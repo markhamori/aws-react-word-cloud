@@ -4,7 +4,7 @@ import axios from "axios";
 const useWordsQuery = () => {
     const { isPending, error, data } = useQuery({
         queryKey: ["words"],
-        queryFn: () => axios.get("http://localhost:3000/words").then((res) => res.data),
+        queryFn: () => axios.get(import.meta.env.WORD_CLOUD_API_URL).then((res) => res.data),
     });
 
 

@@ -3,8 +3,11 @@
 const fastify = require('fastify')();
 const AWS = require('aws-sdk');
 const cors = require("@fastify/cors")
+const fastifyHelmet = require('fastify-helmet');
 
 require('dotenv').config();
+
+const PORT = process.env.PORT || 3000
 
 AWS.config.update({
     region: process.env.AWS_REGION,
@@ -17,6 +20,11 @@ const sns = new AWS.SNS();
 const lambda = new AWS.Lambda();
 
 fastify.register(cors);
+
+fastify.register(fastifyHelmet, {
+    contentSecurityPolicy: false,
+    permissionsPolicy: false
+  });
 
 fastify.get('/health', (request, reply) => {
     reply.send({
@@ -68,10 +76,14 @@ fastify.get('/words', async (request, reply) => {
     }
 });
 
-fastify.listen({ port: 3000 }, (err, address) => {
+fastify.listen({ port: PORT }, (err, address) => {
     if(err) {
         console.error(err);
         process.exit(1);
     }
     console.log(`Server listening at: ${address}`);
 });
+
+module.exports.server = async (event, context) => {
+    return fastify.ready().then(() => fastify.server.emit('request', event, context));
+  };
