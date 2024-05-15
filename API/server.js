@@ -3,7 +3,6 @@
 const fastify = require('fastify')();
 const AWS = require('aws-sdk');
 const cors = require("@fastify/cors")
-const fastifyHelmet = require('fastify-helmet');
 
 require('dotenv').config();
 
@@ -19,11 +18,10 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const sns = new AWS.SNS();
 const lambda = new AWS.Lambda();
 
-fastify.register(cors);
-
-fastify.register(fastifyHelmet, {
-    contentSecurityPolicy: false,
-    permissionsPolicy: false
+fastify.addHook('onSend', async (request, reply, payload) => {
+    reply.header('Access-Control-Allow-Origin', '*');
+    reply.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    reply.header('Access-Control-Allow-Headers', 'Content-Type');
   });
 
 fastify.get('/health', (request, reply) => {
