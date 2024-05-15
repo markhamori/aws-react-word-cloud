@@ -5,9 +5,9 @@ import { wordFreq } from "../../utils/wordFreq";
 import { getRotationDegree } from "../../utils/getRotationDegree";
 import useViewportSize from "../../hooks/useViewportSize";
 import { generateColor } from "../../utils/generaterColor";
+import { Text } from "@visx/text";
 
 import "./WordCloud.css";
-import { Text } from "@visx/text";
 
 export type WordData = {
   text: string;
@@ -21,8 +21,8 @@ type WordCloudProps = {
 type SpiralType = "archimedean" | "rectangular";
 
 const WordCloud = ({ concatedWords }: WordCloudProps) => {
-  const [spiralType, setSpiralType] = useState<SpiralType>("rectangular");
-  const [withRotation, setWithRotation] = useState(false);
+  const [spiralType] = useState<SpiralType>("rectangular");
+  const [withRotation] = useState(false);
 
   const words = wordFreq(concatedWords);
 
@@ -49,8 +49,8 @@ const WordCloud = ({ concatedWords }: WordCloudProps) => {
       rotate={withRotation ? getRotationDegree : 0}
       random={() => 0.5}
     >
-      {(cloudWords) =>
-        cloudWords.map((w, i) => (
+      {(cloudWords) => {
+        return cloudWords.map((w) => (
           <Text
             key={w.text}
             fill={generateColor(w.text)}
@@ -61,8 +61,8 @@ const WordCloud = ({ concatedWords }: WordCloudProps) => {
           >
             {w.text}
           </Text>
-        ))
-      }
+        ));
+      }}
     </Wordcloud>
   );
 };

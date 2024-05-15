@@ -24,7 +24,7 @@ fastify.get('/health', (request, reply) => {
     });
 });
 
-fastify.post('/test-sns', async (request, reply) => {
+fastify.post('/words', async (request, reply) => {
     const { message } = request.body;
 
     try {
@@ -49,7 +49,7 @@ fastify.post('/test-sns', async (request, reply) => {
     }
 });
 
-fastify.get('/test-sns', async (request, reply) => {
+fastify.get('/words', async (request, reply) => {
     try {
         const dynamoDBResponse = await dynamoDB.scan({
             TableName: process.env.AWS_DYNAMODB_TABLE_NAME

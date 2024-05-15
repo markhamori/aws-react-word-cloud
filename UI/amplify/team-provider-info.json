@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-wordcloudui-dev-4b396-authRole",
+      "UnauthRoleArn": "arn:aws:iam::279204523534:role/amplify-wordcloudui-dev-4b396-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::279204523534:role/amplify-wordcloudui-dev-4b396-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-wordcloudui-dev-4b396-deployment",
+      "UnauthRoleName": "amplify-wordcloudui-dev-4b396-unauthRole",
+      "StackName": "amplify-wordcloudui-dev-4b396",
+      "StackId": "arn:aws:cloudformation:us-west-2:279204523534:stack/amplify-wordcloudui-dev-4b396/cf7309f0-12dd-11ef-b8df-0ab31a3f9f39",
+      "AmplifyAppId": "d1n1k1ll12aekj"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1n1k1ll12aekj",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}

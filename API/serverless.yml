@@ -1,0 +1,14 @@
+service: api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  api:
+    handler: handler.server
+    events:
+      - http:
+          path: words
+          method: get

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-const useMessagesQuery = () => {
+const useWordsQuery = () => {
     const { isPending, error, data } = useQuery({
-        queryKey: ["messages"],
-        queryFn: () => axios.get("http://localhost:3000/test-sns").then((res) => res.data),
+        queryKey: ["words"],
+        queryFn: () => axios.get("http://localhost:3000/words").then((res) => res.data),
     });
 
 
@@ -16,4 +16,4 @@ const useMessagesQuery = () => {
     
 }
 
-export default useMessagesQuery;
+export default useWordsQuery;

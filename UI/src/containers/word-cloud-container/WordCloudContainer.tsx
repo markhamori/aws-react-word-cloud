@@ -1,6 +1,6 @@
 import { Triangle } from "react-loader-spinner";
 import WordCloud from "../../components/word-cloud/WordCloud";
-import useMessagesQuery from "../../queries/useMessagesQuery";
+import useWordsQuery from "../../queries/useWordsQuery";
 
 import "./WordCloudContainer.css";
 
@@ -11,7 +11,7 @@ type Message = {
 };
 
 const WordCloudContainer = () => {
-  const { data, error, isPending } = useMessagesQuery();
+  const { data, error, isPending } = useWordsQuery();
 
   if (isPending) {
     return (

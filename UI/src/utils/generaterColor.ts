@@ -32,6 +32,9 @@ const hexToHSL = (hex: string): HSLColor => {
         min = Math.min(r, g, b);
     let h, s, l = (max + min) / 2;
 
+    h = (max + min) / 2
+    l = (max + min) / 2
+
     if (max === min) {
         h = s = 0;
     } else {
