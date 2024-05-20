@@ -1,6 +1,6 @@
 'use strict'
 
-const fastify = require('fastify')();
+const fastify = require('fastify')({ logger: true });
 const AWS = require('aws-sdk');
 const cors = require("@fastify/cors")
 
@@ -16,13 +16,14 @@ AWS.config.update({
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const sns = new AWS.SNS();
-const lambda = new AWS.Lambda();
+// const lambda = new AWS.Lambda();
 
-fastify.addHook('onSend', async (request, reply, payload) => {
-    reply.header('Access-Control-Allow-Origin', '*');
-    reply.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    reply.header('Access-Control-Allow-Headers', 'Content-Type');
-  });
+fastify.register(cors, {
+    origin: 'https://dev.d1n1k1ll12aekj.amplifyapp.com',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true
+});
 
 fastify.get('/health', (request, reply) => {
     reply.send({
@@ -82,6 +83,9 @@ fastify.listen({ port: PORT }, (err, address) => {
     console.log(`Server listening at: ${address}`);
 });
 
-module.exports.server = async (event, context) => {
-    return fastify.ready().then(() => fastify.server.emit('request', event, context));
-  };
+fastify.setErrorHandler((error, request, reply) => {
+    fastify.log.error(error);
+    reply.status(500).send({ error: 'Internal Server Error' });
+});
+
+module.exports = fastify;

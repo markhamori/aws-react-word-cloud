@@ -1,7 +1,7 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "server": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@fastify/aws-lambda": "^4.1.0",
     "@fastify/cors": "^9.0.1",
     "aws-sdk": "^2.1618.0",
     "dotenv": "^16.4.5",
