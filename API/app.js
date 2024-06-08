@@ -16,7 +16,6 @@ AWS.config.update({
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 const sns = new AWS.SNS();
-// const lambda = new AWS.Lambda();
 
 fastify.register(cors, {
     origin: 'https://dev.d1n1k1ll12aekj.amplifyapp.com',
