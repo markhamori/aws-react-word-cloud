@@ -14,3 +14,11 @@ functions:
           path: words
           method: get
           cors: true
+      - http:
+          path: words
+          method: post
+          cors: true
+      - http:
+          path: health
+          method: get
+          cors: true

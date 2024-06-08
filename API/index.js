@@ -3,6 +3,7 @@ const fastify = require('./app');
 
 const proxy = awsLambdaFastify(fastify);
 
-exports.handler = (event, context) => {
+exports.handler = async (event, context) => {
+    console.log(proxy)
     return proxy(event, context);
 };

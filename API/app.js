@@ -24,6 +24,12 @@ fastify.register(cors, {
     credentials: true
 });
 
+fastify.get('/', (request, reply) => {
+    reply.send({
+        message: 'Default route',
+    });
+});
+
 fastify.get('/health', (request, reply) => {
     reply.send({
         message: 'Health Fastify',
