@@ -19,6 +19,14 @@ functions:
           method: post
           cors: true
       - http:
+          path: words
+          method: options
+          cors: true
+      - http:
           path: health
           method: get
+          cors: true
+      - http:
+          path: health
+          method: options
           cors: true
