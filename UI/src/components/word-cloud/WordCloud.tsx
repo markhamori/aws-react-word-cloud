@@ -43,7 +43,7 @@ const WordCloud = ({ concatedWords }: WordCloudProps) => {
       width={width}
       height={height}
       fontSize={(datum: WordData) => fontScale(datum.value)}
-      font={"Impact"}
+      font="Impact"
       padding={2}
       spiral={spiralType}
       rotate={withRotation ? getRotationDegree : 0}
